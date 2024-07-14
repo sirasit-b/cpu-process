@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Time Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        #results {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Memory Time Calculator</h1>
+    <form id="calculator">
+        <label for="accessTime">Access Time (ns):</label>
+        <input type="number" id="accessTime" required>
+
+        <label for="cycleTime">Cycle Time (ns):</label>
+        <input type="number" id="cycleTime" required>
+
+        <label for="dataSize">Data Size (bytes):</label>
+        <input type="number" id="dataSize" required>
+
+        <label for="busWidth">Bus Width (bits):</label>
+        <input type="number" id="busWidth" required>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('calculator').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const accessTime = parseFloat(document.getElementById('accessTime').value);
+            const cycleTime = parseFloat(document.getElementById('cycleTime').value);
+            const dataSize = parseFloat(document.getElementById('dataSize').value);
+            const busWidth = parseFloat(document.getElementById('busWidth').value);
+
+            const transferTime = (dataSize * 8) / busWidth * cycleTime;
+            const totalAccessTime = accessTime + transferTime;
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                Access Time: ${accessTime.toFixed(2)} ns<br>
+                Cycle Time: ${cycleTime.toFixed(2)} ns<br>
+                Transfer Time: ${transferTime.toFixed(2)} ns<br>
+                Total Access Time: ${totalAccessTime.toFixed(2)} ns
+            `;
+        });
+    </script>
+</body>
+</html>
